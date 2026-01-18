@@ -1,0 +1,42 @@
+-- 40. Remove extra spaces
+SELECT LTRIM(RTRIM('   SQL Server   '));
+
+-- 41. Split string into rows
+SELECT value
+FROM STRING_SPLIT('A,B,C,D', ',');
+
+-- 42. Concatenate rows into string
+SELECT STRING_AGG(name, ', ')
+FROM employees;
+
+-- 43. Find numeric values in string
+SELECT *
+FROM logs
+WHERE message LIKE '%[0-9]%';
+
+-- 44. Replace multiple characters
+SELECT TRANSLATE(phone, '()- ', '') FROM customers;
+
+-- 45. JSON extract value
+SELECT JSON_VALUE(data, '$.address.city')
+FROM orders_json;
+
+-- 46. JSON to rows
+SELECT *
+FROM OPENJSON(@json)
+WITH (
+    order_id INT,
+    amount MONEY
+);
+
+-- 47. Validate JSON
+SELECT ISJSON(data) FROM api_logs;
+
+-- 48. Case-insensitive comparison
+SELECT *
+FROM users
+WHERE LOWER(username) = LOWER(@input);
+
+-- 49. Mask sensitive data
+SELECT CONCAT(LEFT(card_no,4),'XXXXXX',RIGHT(card_no,4))
+FROM payments;

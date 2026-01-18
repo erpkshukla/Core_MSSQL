@@ -1,0 +1,35 @@
+-- Blocking sessions
+SELECT
+    blocking_session_id,
+    session_id,
+    wait_type,
+    wait_time
+FROM sys.dm_exec_requests
+WHERE blocking_session_id <> 0;
+
+
+
+-- Check blocking sessions
+SELECT 
+    blocking_session_id AS blocker,
+    session_id AS blocked,
+    wait_type,
+    wait_time,
+    wait_resource
+FROM sys.dm_exec_requests
+WHERE blocking_session_id <> 0;
+
+-- Find running queries
+SELECT 
+    r.session_id,
+    r.status,
+    r.wait_type,
+    t.text
+FROM sys.dm_exec_requests r
+CROSS APPLY sys.dm_exec_sql_text(r.sql_handle) t;
+
+-- Deadlock graph (if enabled)
+SELECT * 
+FROM sys.dm_os_ring_buffers
+WHERE ring_buffer_type = 'RING_BUFFER_DEADLOCK';
+

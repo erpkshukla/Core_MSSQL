@@ -1,0 +1,11 @@
+-- 99. Create role
+CREATE ROLE report_reader;
+
+-- 100. Grant permission
+GRANT SELECT ON sales TO report_reader;
+
+-- 101. Revoke permission
+REVOKE INSERT ON sales FROM report_reader;
+
+-- 102. View permissions
+SELECT * FROM fn_my_permissions(NULL,'DATABASE');

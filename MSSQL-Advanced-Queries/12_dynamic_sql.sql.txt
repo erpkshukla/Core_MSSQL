@@ -1,0 +1,17 @@
+-- 93. Dynamic select
+SET @sql = 'SELECT * FROM ' + @table;
+
+-- 94. Prevent SQL injection
+EXEC sp_executesql @sql, N'@id INT', @id;
+
+-- 95. Dynamic pivot
+EXEC(@pivot_sql);
+
+-- 96. Dynamic where clause
+IF @status IS NOT NULL SET @sql += ' WHERE status=@status';
+
+-- 97. Execute stored procedure dynamically
+EXEC(@proc);
+
+-- 98. Dynamic index creation
+EXEC('CREATE INDEX idx ON ' + @table);

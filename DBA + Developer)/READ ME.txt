@@ -1,0 +1,70 @@
+mssql-dba-developer-advanced/
+¦
++-- README.md
+¦
++-- developer/
+¦   +-- 01_advanced_select_queries.sql
+¦   +-- 02_joins_and_subqueries.sql
+¦   +-- 03_cte_and_recursive_cte.sql
+¦   +-- 04_window_functions.sql
+¦   +-- 05_date_time_advanced.sql
+¦   +-- 06_string_json_xml.sql
+¦   +-- 07_stored_procedures_advanced.sql
+¦   +-- 08_user_defined_functions.sql
+¦   +-- 09_transactions_error_handling.sql
+¦   +-- 10_dynamic_sql.sql
+¦   +-- 11_real_world_business_queries.sql
+¦
++-- dba/
+¦   +-- 01_indexing_strategy.sql
+¦   +-- 02_index_fragmentation.sql
+¦   +-- 03_performance_tuning.sql
+¦   +-- 04_execution_plan_analysis.sql
+¦   +-- 05_blocking_deadlocks.sql
+¦   +-- 06_backup_restore.sql
+¦   +-- 07_security_roles_permissions.sql
+¦   +-- 08_monitoring_health_check.sql
+¦   +-- 09_capacity_planning.sql
+¦   +-- 10_disaster_recovery.sql
+¦
++-- samples/
+    +-- sample_tables.sql
+    +-- sample_data.sql
+
+
+
+
+
+
+Note Must understand before go  ahead
+
+# SQL Server DBA + Developer – Advanced Queries
+
+This repository contains **industry-level advanced T-SQL scripts**
+used by SQL Server Developers and DBAs in real production environments.
+
+## ?? Developer Section
+- Advanced SELECT queries
+- Joins, Subqueries, CTEs
+- Window Functions
+- Stored Procedures & Functions
+- Error Handling & Transactions
+- Dynamic SQL
+- Real-world business use cases
+
+## ?? DBA Section
+- Indexing & Fragmentation
+- Performance Tuning
+- Execution Plans
+- Blocking & Deadlocks
+- Backup & Restore
+- Security & Permissions
+- Monitoring & Health Checks
+- Disaster Recovery
+
+## ?? Who Should Use This?
+- SQL Server Developers
+- SQL Server DBAs
+- Interview Preparation
+- Production Support Engineers
+

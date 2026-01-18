@@ -1,0 +1,37 @@
+-- Blocking sessions
+SELECT
+    blocking_session_id,
+    session_id,
+    wait_type,
+    wait_time
+FROM sys.dm_exec_requests
+WHERE blocking_session_id <> 0;
+
+
+
+
+--------------------------------
+
+-- Full backup
+BACKUP DATABASE MyDB
+TO DISK = 'C:\Backup\MyDB_Full.bak'
+WITH INIT;
+
+-- Differential backup
+BACKUP DATABASE MyDB
+TO DISK = 'C:\Backup\MyDB_Diff.bak'
+WITH DIFFERENTIAL;
+
+-- Restore database
+RESTORE DATABASE MyDB
+FROM DISK = 'C:\Backup\MyDB_Full.bak'
+WITH REPLACE;
+
+-- Backup history
+SELECT 
+    database_name,
+    backup_start_date,
+    backup_finish_date,
+    type
+FROM msdb.dbo.backupset;
+

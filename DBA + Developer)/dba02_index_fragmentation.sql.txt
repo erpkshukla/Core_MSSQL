@@ -1,0 +1,36 @@
+-- Index fragmentation
+SELECT
+    dbschemas.name AS schema_name,
+    dbtables.name AS table_name,
+    dbindexes.name AS index_name,
+    indexstats.avg_fragmentation_in_percent
+FROM sys.dm_db_index_physical_stats
+(DB_ID(), NULL, NULL, NULL, 'LIMITED') indexstats
+JOIN sys.tables dbtables ON dbtables.object_id = indexstats.object_id
+JOIN sys.schemas dbschemas ON dbtables.schema_id = dbschemas.schema_id
+JOIN sys.indexes dbindexes ON indexstats.object_id = dbindexes.object_id
+AND indexstats.index_id = dbindexes.index_id
+WHERE avg_fragmentation_in_percent > 30;
+
+
+
+--------
+
+-- Check index fragmentation
+SELECT 
+    OBJECT_NAME(ps.object_id) AS table_name,
+    i.name AS index_name,
+    ps.avg_fragmentation_in_percent
+FROM sys.dm_db_index_physical_stats(DB_ID(), NULL, NULL, NULL, 'LIMITED') ps
+JOIN sys.indexes i
+    ON ps.object_id = i.object_id
+    AND ps.index_id = i.index_id
+WHERE ps.avg_fragmentation_in_percent > 10
+ORDER BY ps.avg_fragmentation_in_percent DESC;
+
+-- Rebuild index
+ALTER INDEX index_name ON table_name REBUILD;
+
+-- Reorganize index
+ALTER INDEX index_name ON table_name REORGANIZE;
+

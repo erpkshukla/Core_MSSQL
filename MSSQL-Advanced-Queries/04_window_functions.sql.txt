@@ -1,0 +1,32 @@
+-- 21. Rank vs Dense Rank
+SELECT name, salary,
+       RANK() OVER (ORDER BY salary DESC) rnk,
+       DENSE_RANK() OVER (ORDER BY salary DESC) drnk
+FROM employees;
+
+-- 22. Lead and Lag
+SELECT emp_id, salary,
+       LAG(salary) OVER (ORDER BY emp_id) prev_salary,
+       LEAD(salary) OVER (ORDER BY emp_id) next_salary
+FROM employees;
+
+-- 23. Moving average
+SELECT order_date,
+       AVG(amount) OVER (
+           ORDER BY order_date 
+           ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+       ) avg_7_days
+FROM orders;
+
+-- 24. NTILE
+SELECT emp_id, salary, NTILE(4) OVER (ORDER BY salary) quartile
+FROM employees;
+
+-- 25. First and Last value
+SELECT emp_id,
+       FIRST_VALUE(salary) OVER (ORDER BY salary) min_salary,
+       LAST_VALUE(salary) OVER (
+           ORDER BY salary
+           ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+       ) max_salary
+FROM employees;

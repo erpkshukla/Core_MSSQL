@@ -1,0 +1,18 @@
+mssql-advanced-industry-queries/
+¦
++-- README.md
+¦
++-- 01_advanced_select_queries.sql
++-- 02_joins_and_subqueries.sql
++-- 03_cte_and_recursive_cte.sql
++-- 04_window_functions.sql
++-- 05_date_time_advanced.sql
++-- 06_string_and_json.sql
++-- 07_stored_procedures_advanced.sql
++-- 08_functions.sql
++-- 09_transactions_error_handling.sql
++-- 10_indexes_performance.sql
++-- 11_triggers_audit.sql
++-- 12_dynamic_sql.sql
++-- 13_security_roles_permissions.sql
++-- 14_real_world_use_cases.sql

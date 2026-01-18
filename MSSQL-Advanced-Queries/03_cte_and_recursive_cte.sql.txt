@@ -1,0 +1,36 @@
+-- 17. Simple CTE
+WITH emp_cte AS (
+    SELECT emp_id, name, salary FROM employees WHERE salary > 50000
+)
+SELECT * FROM emp_cte;
+
+-- 18. Multiple CTEs
+WITH sales_cte AS (
+    SELECT emp_id, SUM(amount) total_sales
+    FROM sales GROUP BY emp_id
+),
+rank_cte AS (
+    SELECT *, RANK() OVER (ORDER BY total_sales DESC) rnk
+    FROM sales_cte
+)
+SELECT * FROM rank_cte WHERE rnk <= 5;
+
+-- 19. Recursive CTE (hierarchy)
+WITH org_cte AS (
+    SELECT emp_id, manager_id, 1 level
+    FROM employees WHERE manager_id IS NULL
+    UNION ALL
+    SELECT e.emp_id, e.manager_id, o.level + 1
+    FROM employees e
+    JOIN org_cte o ON e.manager_id = o.emp_id
+)
+SELECT * FROM org_cte;
+
+-- 20. Date series using CTE
+WITH dates AS (
+    SELECT CAST('2025-01-01' AS DATE) d
+    UNION ALL
+    SELECT DATEADD(DAY, 1, d)
+    FROM dates WHERE d < '2025-01-10'
+)
+SELECT * FROM dates;

@@ -1,0 +1,50 @@
+-- 9. Self join (manager-employee)
+SELECT e.name, m.name AS manager
+FROM employees e
+LEFT JOIN employees m ON e.manager_id = m.emp_id;
+
+-- 10. Find unmatched records
+SELECT a.*
+FROM tableA a
+LEFT JOIN tableB b ON a.id = b.id
+WHERE b.id IS NULL;
+
+-- 11. Correlated subquery
+SELECT *
+FROM employees e
+WHERE salary > (
+    SELECT AVG(salary) FROM employees WHERE dept_id = e.dept_id
+);
+
+-- 12. Multiple joins
+SELECT o.order_id, c.name, p.product_name
+FROM orders o
+JOIN customers c ON o.customer_id = c.id
+JOIN products p ON o.product_id = p.id;
+
+-- 13. EXISTS vs IN
+SELECT *
+FROM employees e
+WHERE EXISTS (
+    SELECT 1 FROM departments d WHERE d.id = e.dept_id
+);
+
+-- 14. CROSS APPLY
+SELECT e.name, d.*
+FROM employees e
+CROSS APPLY dbo.fn_get_employee_details(e.emp_id) d;
+
+-- 15. OUTER APPLY
+SELECT *
+FROM customers c
+OUTER APPLY (
+    SELECT TOP 1 * FROM orders o 
+    WHERE o.customer_id = c.id
+    ORDER BY order_date DESC
+) o;
+
+-- 16. Multi-column join
+SELECT *
+FROM sales s
+JOIN targets t
+ON s.emp_id = t.emp_id AND s.year = t.year;

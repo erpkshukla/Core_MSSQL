@@ -1,0 +1,18 @@
+-- 26. Start of month
+SELECT DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0);
+
+-- 27. End of month
+SELECT EOMONTH(GETDATE());
+
+-- 28. Age calculation
+SELECT DATEDIFF(YEAR, dob, GETDATE()) -
+       CASE WHEN DATEADD(YEAR, DATEDIFF(YEAR, dob, GETDATE()), dob) > GETDATE()
+            THEN 1 ELSE 0 END AS age
+FROM employees;
+
+-- 29. Business days between dates
+SELECT COUNT(*)
+FROM master.dbo.spt_values
+WHERE type = 'P'
+AND DATEADD(DAY, number, @start_date) <= @end_date
+AND DATENAME(WEEKDAY, DATEADD(DAY, number, @start_date)) NOT IN ('Saturday','Sunday');

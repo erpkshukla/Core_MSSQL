@@ -1,0 +1,26 @@
+-- 78. Disable index
+ALTER INDEX idx_emp_salary ON employees DISABLE;
+
+-- 79. Rebuild index
+ALTER INDEX ALL ON employees REBUILD;
+
+-- 80. Reorganize index
+ALTER INDEX ALL ON employees REORGANIZE;
+
+-- 81. Index usage
+SELECT * FROM sys.dm_db_index_usage_stats;
+
+-- 82. Query plan cache
+SELECT * FROM sys.dm_exec_query_stats;
+
+-- 83. Find slow queries
+ORDER BY total_elapsed_time DESC;
+
+-- 84. Parameter sniffing
+OPTION (OPTIMIZE FOR UNKNOWN);
+
+-- 85. Force index
+WITH (INDEX(idx_emp_salary));
+
+-- 86. Covering index analysis
+INCLUDE (col1, col2);

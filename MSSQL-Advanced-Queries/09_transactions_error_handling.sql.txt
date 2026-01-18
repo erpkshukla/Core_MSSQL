@@ -1,0 +1,25 @@
+-- 70. XACT_STATE check
+IF XACT_STATE() = -1 ROLLBACK;
+
+-- 71. Nested transaction
+BEGIN TRAN
+    SAVE TRAN sp1;
+ROLLBACK TRAN sp1;
+
+-- 72. Error details
+SELECT ERROR_NUMBER(), ERROR_SEVERITY(), ERROR_LINE();
+
+-- 73. Custom error
+THROW 50001, 'Invalid data', 1;
+
+-- 74. SET XACT_ABORT
+SET XACT_ABORT ON;
+
+-- 75. Deadlock retry logic
+WAITFOR DELAY '00:00:05';
+
+-- 76. Audit failed transaction
+INSERT INTO audit_failures VALUES (ERROR_MESSAGE());
+
+-- 77. Log success
+INSERT INTO audit_success VALUES (GETDATE());

@@ -1,0 +1,30 @@
+-- 35. Audit trigger
+CREATE TRIGGER trg_employee_audit
+ON employees
+AFTER UPDATE
+AS
+INSERT INTO employee_audit
+SELECT *, GETDATE() FROM deleted;
+
+
+-- 87. INSTEAD OF trigger
+CREATE TRIGGER trg_no_delete
+ON employees
+INSTEAD OF DELETE
+AS RAISERROR('Delete not allowed',16,1);
+
+-- 88. Insert trigger
+AFTER INSERT AS INSERT INTO log VALUES (GETDATE());
+
+-- 89. Update column check
+IF UPDATE(salary) PRINT 'Salary changed';
+
+-- 90. Disable trigger
+DISABLE TRIGGER trg_employee_audit ON employees;
+
+-- 91. Enable trigger
+ENABLE TRIGGER trg_employee_audit ON employees;
+
+-- 92. Drop trigger
+DROP TRIGGER IF EXISTS trg_employee_audit;
+

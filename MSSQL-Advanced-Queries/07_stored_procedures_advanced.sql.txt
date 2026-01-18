@@ -1,0 +1,78 @@
+-- 30. Transactional stored procedure
+CREATE PROCEDURE usp_transfer_funds
+    @from INT,
+    @to INT,
+    @amount MONEY
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRAN;
+
+        UPDATE accounts SET balance -= @amount WHERE id = @from;
+        UPDATE accounts SET balance += @amount WHERE id = @to;
+
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK;
+        THROW;
+    END CATCH
+END;
+
+
+-- 50. Pagination procedure
+CREATE PROCEDURE usp_get_orders_paged
+    @page INT,
+    @size INT
+AS
+BEGIN
+    SELECT *
+    FROM orders
+    ORDER BY order_date
+    OFFSET (@page-1)*@size ROWS
+    FETCH NEXT @size ROWS ONLY;
+END;
+
+-- 51. Bulk insert procedure
+CREATE PROCEDURE usp_bulk_insert
+AS
+BEGIN
+    BULK INSERT staging_table
+    FROM 'C:\data.csv'
+    WITH (FIELDTERMINATOR=',', ROWTERMINATOR='\n');
+END;
+
+-- 52. Output parameter
+CREATE PROCEDURE usp_order_count
+    @cnt INT OUTPUT
+AS
+SELECT @cnt = COUNT(*) FROM orders;
+
+-- 53. Optional parameters
+CREATE PROCEDURE usp_search_employee
+    @name VARCHAR(100) = NULL
+AS
+SELECT * FROM employees
+WHERE @name IS NULL OR name LIKE '%' + @name + '%';
+
+-- 54. Deadlock-safe procedure
+SET DEADLOCK_PRIORITY LOW;
+
+-- 55. Recompile hint
+CREATE PROCEDURE usp_sales_report
+WITH RECOMPILE
+AS SELECT * FROM sales;
+
+-- 56. Encryption
+CREATE PROCEDURE usp_secure_proc
+WITH ENCRYPTION
+AS SELECT * FROM accounts;
+
+-- 57. Return status
+RETURN @@ROWCOUNT;
+
+-- 58. Execute dynamic SQL
+EXEC sp_executesql @sql;
+
+-- 59. Temp table usage
+CREATE TABLE #temp(id INT);

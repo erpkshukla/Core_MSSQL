@@ -1,0 +1,43 @@
+-- 60. Scalar function
+CREATE FUNCTION fn_tax(@amt MONEY)
+RETURNS MONEY
+AS BEGIN RETURN @amt * 0.18 END;
+
+-- 61. Inline table-valued function
+CREATE FUNCTION fn_active_users()
+RETURNS TABLE
+AS RETURN (SELECT * FROM users WHERE active = 1);
+
+-- 62. Multi-statement TVF
+CREATE FUNCTION fn_sales_total(@year INT)
+RETURNS @t TABLE(total MONEY)
+AS
+BEGIN
+    INSERT INTO @t SELECT SUM(amount) FROM sales WHERE year = @year;
+    RETURN;
+END;
+
+-- 63. Deterministic function
+CREATE FUNCTION fn_upper(@s VARCHAR(100))
+RETURNS VARCHAR(100) WITH SCHEMABINDING
+AS BEGIN RETURN UPPER(@s) END;
+
+-- 64. Function in SELECT
+SELECT dbo.fn_tax(salary) FROM employees;
+
+-- 65. CROSS APPLY function
+SELECT *
+FROM employees
+CROSS APPLY fn_sales_total(2025);
+
+-- 66. Function performance test
+SET STATISTICS TIME ON;
+
+-- 67. NULL handling
+RETURN ISNULL(@value,0);
+
+-- 68. Schema-bound function
+WITH SCHEMABINDING;
+
+-- 69. Drop function safely
+DROP FUNCTION IF EXISTS fn_tax;

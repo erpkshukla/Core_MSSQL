@@ -1,0 +1,21 @@
+-- Create stored procedure
+CREATE PROCEDURE usp_GetEmployee
+    @EmpId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT * FROM Employees WHERE EmployeeID = @EmpId;
+END;
+
+-- Try/Catch error handling
+BEGIN TRY
+    INSERT INTO Employees VALUES (1,'John')
+END TRY
+BEGIN CATCH
+    SELECT ERROR_MESSAGE() AS ErrorMessage;
+END CATCH;
+
+-- Dynamic SQL
+DECLARE @sql NVARCHAR(MAX);
+SET @sql = 'SELECT * FROM Employees';
+EXEC sp_executesql @sql;

@@ -1,0 +1,39 @@
+-- 36. Monthly sales report
+SELECT YEAR(order_date), MONTH(order_date), SUM(amount)
+FROM orders
+GROUP BY YEAR(order_date), MONTH(order_date);
+
+-- 37. Inactive customers
+SELECT *
+FROM customers
+WHERE customer_id NOT IN (
+    SELECT DISTINCT customer_id FROM orders
+);
+
+-- 38. Top performing employee per department
+WITH cte AS (
+    SELECT dept_id, emp_id, SUM(amount) total,
+           RANK() OVER (PARTITION BY dept_id ORDER BY SUM(amount) DESC) rnk
+    FROM sales
+    GROUP BY dept_id, emp_id
+)
+SELECT * FROM cte WHERE rnk = 1;
+
+
+-- 103. Detect fraud transactions
+SELECT *
+FROM transactions
+WHERE amount > AVG(amount) OVER ();
+
+-- 104. SLA breach detection
+SELECT *
+FROM tickets
+WHERE DATEDIFF(HOUR, created_at, resolved_at) > sla_hours;
+
+-- 105. Year-over-year growth
+SELECT year,
+       SUM(amount),
+       LAG(SUM(amount)) OVER (ORDER BY year) prev_year
+FROM sales
+GROUP BY year;
+
