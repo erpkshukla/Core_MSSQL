@@ -174,6 +174,7 @@ EXISTS -- tests for the existence of any record in a subquery
   SELECT * FROM employees ORDER BY age DESC;
   
 --🔹 Part 7: Aggregate Functions
+
 22. COUNT()
 	SELECT COUNT(*) FROM employees;
 23. SUM()
@@ -186,12 +187,13 @@ EXISTS -- tests for the existence of any record in a subquery
 	SELECT MAX(salary) FROM employees;
 	
 --🔹 Part 8: Filtering and Conditions
+
 27. DISTINCT --– Unique values
     SELECT DISTINCT department FROM employees;
 28. WHERE –-- Filter results
      SELECT * FROM employees WHERE age > 30;
 29. AND / OR / NOT --
-	 SELECT * FROM employees WHERE age > 25 AND department = 'HR';
+	 SELECT * FROM employees WHERE age > 25 AND    department = 'HR';
 	 SELECT * FROM employees WHERE department = 'HR' OR department = 'IT';
 	 SELECT * FROM employees WHERE NOT age < 30;
 30. BETWEEN 
@@ -220,6 +222,7 @@ EXISTS -- tests for the existence of any record in a subquery
 		FROM employees;
 
 --🔹 Part 10: Keys & Constraints
+
 36. PRIMARY KEY
 CREATE TABLE departments (
     id INT PRIMARY KEY,
@@ -262,116 +265,82 @@ ALTER TABLE employees
 ADD CONSTRAINT fk_dept
 FOREIGN KEY (department_id) REFERENCES departments(id)
 ON DELETE CASCADE;
-44. SET NULL 
+--44. SET NULL 
 ALTER TABLE employees
 ADD CONSTRAINT fk_dept
 FOREIGN KEY (department_id) REFERENCES departments(id)
 ON DELETE SET NULL;
-45. SET DEFAULT 
+--45. SET DEFAULT 
 ALTER TABLE employees
 ADD CONSTRAINT fk_dept
 FOREIGN KEY (department_id) REFERENCES departments(id)
 ON DELETE SET DEFAULT;
-46. NO ACTION
-sql
-Copy
-Edit
+--46. NO ACTION
+
 ALTER TABLE employees
 ADD CONSTRAINT fk_dept
 FOREIGN KEY (department_id) REFERENCES departments(id)
 ON DELETE NO ACTION;
-47. RESTRICT
-sql
-Copy
-Edit
+--47. RESTRICT
 ALTER TABLE employees
 ADD CONSTRAINT fk_dept
 FOREIGN KEY (department_id) REFERENCES departments(id)
 ON DELETE RESTRICT;
 🔹 Part 12: WITH, INTO, TOP, LIMIT, OFFSET, FETCH
 48. CASE WHEN (See Part 9)
-49. WITH (CTE)
-sql
-Copy
-Edit
+--49. WITH (CTE)
+
 WITH dept_count AS (
     SELECT department_id, COUNT(*) AS emp_count
     FROM employees
     GROUP BY department_id
 )
 SELECT * FROM dept_count WHERE emp_count > 5;
-50. INTO
-sql
-Copy
-Edit
+--50. INTO
+
 SELECT * INTO employees_backup FROM employees;
-51. TOP (SQL Server)
-sql
-Copy
-Edit
+--51. TOP (SQL Server)
+
 SELECT TOP 5 * FROM employees;
-52. LIMIT (MySQL/PostgreSQL)
-sql
-Copy
-Edit
+--52. LIMIT (MySQL/PostgreSQL)
+
 SELECT * FROM employees LIMIT 5;
-53. OFFSET
-sql
-Copy
-Edit
+--53. OFFSET
+
 SELECT * FROM employees LIMIT 5 OFFSET 10;
-54. FETCH (SQL:2008+)
-sql
-Copy
-Edit
+--54. FETCH (SQL:2008+)
+
 SELECT * FROM employees OFFSET 10 ROWS FETCH NEXT 5 ROWS ONLY;
 🔹 Part 13: Window Functions
-55. ROW_NUMBER()
-sql
-Copy
-Edit
+--55. ROW_NUMBER()
+
 SELECT name, ROW_NUMBER() OVER (ORDER BY salary DESC) AS row_num
 FROM employees;
-56. RANK()
-sql
-Copy
-Edit
+--56. RANK()
+
 SELECT name, RANK() OVER (ORDER BY salary DESC) AS rank
 FROM employees;
-57. DENSE_RANK()
-sql
-Copy
-Edit
+--57. DENSE_RANK()
+
 SELECT name, DENSE_RANK() OVER (ORDER BY salary DESC) AS dense_rank
 FROM employees;
-58. NTILE(n)
-sql
-Copy
-Edit
+--58. NTILE(n)
+
 SELECT name, NTILE(4) OVER (ORDER BY salary) AS quartile
 FROM employees;
-59. LEAD()
-sql
-Copy
-Edit
+--59. LEAD()
+
 SELECT name, salary, LEAD(salary) OVER (ORDER BY salary) AS next_salary
 FROM employees;
-60. LAG()
-sql
-Copy
-Edit
+--60. LAG()
+
 SELECT name, salary, LAG(salary) OVER (ORDER BY salary) AS prev_salary
 FROM employees;
-61. PARTITION BY
-sql
-Copy
-Edit
+--61. PARTITION BY
+
 SELECT department, name, RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS dept_rank
 FROM employees;
-62. ROWS
-sql
-Copy
-Edit
+62. ROWS
 SELECT name, salary,
        SUM(salary) OVER (ORDER BY id ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING) AS moving_sum
 FROM employees;
