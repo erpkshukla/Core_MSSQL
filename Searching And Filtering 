@@ -1,1 +1,104 @@
-a
+1-
+
+p.name AS procedure_name
+OBJECT_SCHEMA_NAME (p.object_id) AS schema_name
+FROM sys.procedures p. JOIN sys.sql_modules m ON p.object_id = m.object_id WHERE m.definition LIKE '%FeeReconcillationDef%';
+
+2-
+ SELECT OBJECT_SCHEMA_NAME (object_id) AS schema_name, name AS procedure_name 
+FROM sys.procedures WHERE OBJECT_DEFINITION (object_id) LIKE '%FeeCollectionAdjustment%";
+
+
+ --SELECT p.name AS procedure_name, OBJECT_SCHEMA_NAME (p.object_id) AS schema_name
+ --FROM sys.procedures p JOIN sys.sql_modules m ON p.object_id = m.object_id
+ --WHERE m.definition LIKE '%FeeCollectionAdjustment%';
+
+3-
+
+SELECT
+t.name AS TableName,
+STRING AGG(c.name, ', ') AS Columns
+FROM sys.tables t
+INNER JOIN sys.columns c ON t.object_id = c.object_id
+WHERE t.name LIKE '%Fee%"
+GROUP BY t.name
+ORDER BY t.name;
+
+4—
+
+
+Select
+s.name AS SchemaName,
+ t.name AS TableName, 
+c.name AS ColumnName,
+ ty.name AS DataType
+ FROM sys.schemas s
+JOIN sys.tables t ON s.schema_id = t.schema_id
+JOIN sys.columns c ON t.object_id = c.object_id
+JOIN sys.types ty ON c.user_type_id = ty.user_type_id
+WHERE t.name LIKE '%Fee%'
+ORDER BY s.name, t.name, c.column_id;
+
+
+
+
+
+
+
+5—----->>>
+
+
+--table with respective columns
+
+
+
+
+ SELECT  t.name AS TableName,
+
+FROM sys.tables t
+
+c.name AS ColumnName
+INNER JOIN sys.columns c = ON t.object_id = c.object_id
+ INNER JOIN sys.types ty
+ON c.user_type_id = ty.user_type_id WHERE t.name LIKE '%Fee%'
+64 ORDER BY t.name, c.column_id;
+
+
+
+
+
+
+
+6—--->>>
+
+
+DECLARE db_cursor CURSOR FOR
+
+SELECT name FROM sys.databases
+
+WHERE state_desc= 'ONLINE'
+
+AND name NOT IN ('master', 'tempdb', 'model', 'msdb'); -- exclude system databases 
+OPEN db_cursor;
+FETCH NEXT FROM db_cursor INTO @dbName;
+WHILE @@FETCH_STATUS = 0
+BEGIN
+SET @sql
+USE [' + @dbName + '];
+SELECT
++ @dbName +
+AS database_name,
+OBJECT_SCHEMA_NAME (p.object_id) AS schema_name,
+p.name AS procedure_name
+FROM sys.procedures p
+JOIN sys.sql_modules m ON p.object_id = m.object_id
+I WHERE m.definition LIKE '%FeeCollectionAdjustment%'';
+PRINT 'Searching in database: + @dbName;
+END
+EXEC sp_executesql @sql;
+FETCH NEXT FROM db_cursor INTO @dbName;
+CLOSE db_cursor;
+DEALLOCATE db_cursor;
+
+
+
