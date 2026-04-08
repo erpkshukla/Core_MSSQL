@@ -2,16 +2,16 @@
 
 p.name AS procedure_name
 OBJECT_SCHEMA_NAME (p.object_id) AS schema_name
-FROM sys.procedures p. JOIN sys.sql_modules m ON p.object_id = m.object_id WHERE m.definition LIKE '%FeeReconcillationDef%';
+FROM sys.procedures p 
+JOIN sys.sql_modules m ON p.object_id = m.object_id 
+WHERE m.definition LIKE '%FeeReconcillationDef%';
 
 2-
  SELECT OBJECT_SCHEMA_NAME (object_id) AS schema_name, name AS procedure_name 
 FROM sys.procedures WHERE OBJECT_DEFINITION (object_id) LIKE '%FeeCollectionAdjustment%";
 
 
- --SELECT p.name AS procedure_name, OBJECT_SCHEMA_NAME (p.object_id) AS schema_name
- --FROM sys.procedures p JOIN sys.sql_modules m ON p.object_id = m.object_id
- --WHERE m.definition LIKE '%FeeCollectionAdjustment%';
+ 
 
 3-
 
