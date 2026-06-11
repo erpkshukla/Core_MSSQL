@@ -102,3 +102,22 @@ DEALLOCATE db_cursor;
 
 
 
+--Pagination
+
+
+DECLARE @PageNo INT = 1;
+
+DECLARE @PageSize INT = 10;
+
+SELECT *
+
+FROM SIStudentYearWiseDetails
+
+ORDER BY AdmissionNo
+
+OFFSET (@PageNo - 1) * @PageSize ROWS
+
+FETCH NEXT @PageSize ROWS ONLY;
+
+
+
