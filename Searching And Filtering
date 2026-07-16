@@ -13,7 +13,7 @@ FROM sys.procedures WHERE OBJECT_DEFINITION (object_id) LIKE '%FeeCollectionAdju
 
  
 
-3-
+3- Find/search  the column or table name in entire database
 
 SELECT
 t.name AS TableName,
